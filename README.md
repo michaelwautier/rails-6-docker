@@ -1,24 +1,46 @@
-# README
+## Ownership issues
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+If any issue about ownership raise on Linux, run this command
 
-Things you may want to cover:
+```bash
+sudo chown -R "$USER":"$USER" .
+```
 
-* Ruby version
+## Connecting the Database
 
-* System dependencies
+You have to tell Rails where to find the database.
+In your `config/database.yml` put this :
 
-* Configuration
+```bash
+# config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  pool: 5
+development:
+  <<: *default
+  database: myapp_development
+test:
+  <<: *default
+  database: myapp_test
+```
 
-* Database creation
+## Booting the app
+First run :
 
-* Database initialization
+```bash
+docker-compose up --build
+```
 
-* How to run the test suite
+And in another terminal :
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+docker-compose run -rm web rails db:create
+docker-compose run -rm web rails db:migrate
+```
 
-* Deployment instructions
-
-* ...
+## Browser
+Now you should be able to browse your app on `localhost:3000`
