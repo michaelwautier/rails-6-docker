@@ -42,5 +42,28 @@ docker-compose run -rm web rails db:create
 docker-compose run -rm web rails db:migrate
 ```
 
-## Browser
+## Browsing the app
 Now you should be able to browse your app on `localhost:3000`
+
+## Stopping the app
+To stop the application, just hit CTLR+C in the terminal, or run this commande in another one :
+```bash
+docker-compose down
+```
+
+## Starting the app
+If you don't need a rebuild, simply run :
+```bash
+docker-compose up
+```
+
+If you changed the `Gemfile` :
+```bash
+docker-compose run web bundle install
+docker-compose up --build
+```
+
+If you didn't change the `Gemfile` but changed the `docker-compose.yml` :
+```bash
+docker-compose up --build
+```
